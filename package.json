@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "concurrently --kill-others-on-fail \"npx nodemon index.js\" \"cd client && npm start\"",
+    "dev": "concurrently --kill-others-on-fail \"npx nodemon index.js\" \"cd home-page && npm start\" \"cd client && npm start\"",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "author": "Bryce Vonilten",

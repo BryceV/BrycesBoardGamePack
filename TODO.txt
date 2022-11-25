@@ -7,3 +7,5 @@
 3) Win/loss counter just for that game session
 4) Game score boards (Maybe wins for team with "name". Like an arcade score board)
 5) Fun audio sounds for winning/losing, increase clapping sound for a series of correct words
+6) More game types: did you know, scattegories
+7) Look into web transport instead of sockets
