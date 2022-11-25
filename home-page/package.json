@@ -1,26 +1,28 @@
 {
-  "name": "code-names",
+  "name": "home-page",
   "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "express": "^4.17.1",
-    "lodash-es": "^4.17.15",
-    "react": "^16.10.1",
-    "react-dom": "^16.10.1",
-    "react-scripts": "3.1.2",
-    "react-switch": "^5.0.1",
-    "socket.io": "^4.5.2",
-    "socket.io-client": "^4.5.2"
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=3001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -33,6 +35,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:5000"
+  }
 }

@@ -5,15 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "concurrently --kill-others-on-fail \"npx nodemon index.js\" \"cd client && npm start\"",
+    "dev": "concurrently --kill-others-on-fail \"npx nodemon index.js\" \"cd home-page && npm start\" \"cd client && npm start\"",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "author": "Bryce Vonilten",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "^2.4.0",
-    "socket.io-client": "^2.3.0"
+    "socket.io": "^4.5.2",
+    "socket.io-client": "^4.5.2"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",

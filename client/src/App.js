@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import socketIOClient from 'socket.io-client'
+import io from 'socket.io-client'
 import Switch from "react-switch";
 import { chunk } from 'lodash-es';
 
@@ -10,7 +10,7 @@ import explosion from './assets/explosion.mp3';
 import whoosh from './assets/whoosh.mp3';
 
 //const socket = socketIOClient("localhost:5000");
-const socket = socketIOClient();
+const socket = io("/codenames");
 
 const App = () => {
   const [redsTurn, setRedsTurn] = useState(true);
@@ -19,6 +19,7 @@ const App = () => {
   // const [redcount, setRedcount] = useState(9);
   // const [bluecount, setBluecount] = useState(8);
   const [rows, setRows] = useState([]);
+  const [roomNumber, setRoomNumber] = useState("");
 
   useEffect(() => {
     socket.on("outgoing data", data => {
@@ -41,13 +42,21 @@ const App = () => {
         (new Audio(badSound)).play();
       }
     });
+
+    let pathParts = window.location.pathname.split('/').filter(x => x);
+    if (pathParts.length >= 1) {
+      setRoomNumber(pathParts[pathParts.length - 1]);
+      socket.emit('join', pathParts[pathParts.length - 1]);
+    } else {
+      console.log('ERR: Could not set room number');
+    }
   }, []);
  
   const nextRound = (gameType) => {
-    socket.emit("new round", gameType);  
+    socket.emit("new round", roomNumber, gameType);  
   }
   
-  const changeTurn = () => socket.emit("change turn"); 
+  const changeTurn = () => socket.emit("change turn", roomNumber); 
   
   useEffect(() => {  
     const handleClick = (tileNum) => {
@@ -57,19 +66,19 @@ const App = () => {
           //Make tile changed to clicked state
           let newWords = JSON.parse(JSON.stringify(words));
           newWords[tileNum].clicked = true;
-          socket.emit("update data", newWords);
+          socket.emit("update data", roomNumber, newWords);
           
           //If its a not the teams color, switch to other teams turn
           if ((redsTurn && words[tileNum].title !== "red") ||
               (!redsTurn && words[tileNum].title !== "blue")) {
             changeTurn();
             if (words[tileNum].title === "bomb") {
-              socket.emit("play sound", "explosion");
+              socket.emit("play sound", roomNumber, "explosion");
             } else {
-              socket.emit("play sound", "bad");
+              socket.emit("play sound", roomNumber, "bad");
             }
           } else {
-            socket.emit("play sound", "good");
+            socket.emit("play sound", roomNumber, "good");
           }
         }
     }
@@ -84,7 +93,7 @@ const App = () => {
             { fiveWordChunk.map((w, i) => makeSqr(w,i + (rowIndex*5))) }
           </div>);
       });
-
+      
       setRows(newrows);
     }
   

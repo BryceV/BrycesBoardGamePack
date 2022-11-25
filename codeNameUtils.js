@@ -6,6 +6,12 @@ const normalLines = normalWordBank.split("\n");
 const hardLines = hardWordBank.split("\n");
 const dndLines = dndWordBank.split("\n");
 
+const getWords = (redIsP1, gameType="normal") => {
+  let p1Color = redIsP1? "red" : "blue";
+  let p2Color = (!redIsP1)? "red" : "blue";
+  return getFileWords(gameType, p1Color, p2Color);
+}
+
 const getFileWords = (gameType, p1, p2) => {
   let lines;
   
@@ -44,4 +50,4 @@ const getFileWords = (gameType, p1, p2) => {
   return tiles.sort(() => 0.5 - Math.random());
 }
 
-module.exports = getFileWords;
+module.exports = getWords;
