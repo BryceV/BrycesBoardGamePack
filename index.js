@@ -2,23 +2,19 @@ const express = require('express');
 const path = require('path');
 var http = require('http');
 var socketIO = require('socket.io');
+const {getWords, codeNamesRoomData} = require ('./codenames-be/codeNameUtils');
 
 const app = express();
 const port = process.env.PORT || 5000;
 const server = http.createServer(app);
 const io = socketIO(server);
-
 const codeNamesIO = io.of('/codenames');
 
 // Serve the static files from the React app
-app.use('/codenames/:roomNumber', express.static(path.resolve(__dirname, 'client/build')));
+app.use('/codenames/:roomNumber', express.static(path.resolve(__dirname, 'codenames-fe/build')));
 
 // Serve the static files from the React app
 app.use("/", express.static(path.resolve(__dirname, 'home-page/build')));
-
-const getWords = require ('./codeNameUtils');
-
-const codeNamesRoomData = {};
 
 codeNamesIO.on('connection', socket => {
   console.log(`New client ${socket.id} connected to code-names`);
