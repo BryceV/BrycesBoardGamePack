@@ -9,18 +9,25 @@ const port = process.env.PORT || 5000;
 const server = http.createServer(app);
 const io = socketIO(server);
 const codeNamesIO = io.of('/codenames');
+const didYouKnowIO = io.of('/didyouknow');
 
 // Serve the static files from the React app
 app.use('/codenames/:roomNumber', express.static(path.resolve(__dirname, 'codenames-fe/build')));
+app.use('/didyouknow/:roomNumber', express.static(path.resolve(__dirname, 'did-you-know-fe/build')));
+app.use("/", express.static(path.resolve(__dirname, 'home-page/build')));
 
 // Serve the static files from the React app
-app.use("/", express.static(path.resolve(__dirname, 'home-page/build')));
+app.get("/api/roomType/:joinCode", (req, res) => {
+  //todo: clear codeNamesRoomData when last person leaves
+  let roomType = Object.keys(codeNamesRoomData).includes(req.params.joinCode) ? 'codenames' : 'didyouknow';
+  res.end(JSON.stringify({ roomType }));
+});
 
 codeNamesIO.on('connection', socket => {
   console.log(`New client ${socket.id} connected to code-names`);
 
   socket.on('join', (roomNumber) => {
-    console.log(`Client ${socket.id} is joining room ${roomNumber}`);
+    console.log(`Client ${socket.id} is joining code-names room ${roomNumber}`);
     socket.join(roomNumber);
 
     //if the first user set up the boardgame data
@@ -55,11 +62,25 @@ codeNamesIO.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
-    console.log("Client "+socket.id+" disconnected");
+    console.log("Client "+socket.id+" disconnected from code-names");
   });
   
   socket.on('play sound', (roomNumber, value) => {
     codeNamesIO.to(roomNumber).emit("play click sound", value);
+  });
+})
+
+didYouKnowIO.on('connection', socket => {
+  console.log(`New client ${socket.id} connected to did-you-know`);
+
+  socket.on('join', (roomNumber) => {
+    console.log(`Client ${socket.id} is joining did-you-know room ${roomNumber}`);
+    socket.join(roomNumber);
+  });
+
+
+  socket.on('disconnect', () => {
+    console.log("Client "+socket.id+" disconnected from did-you-know");
   });
 })
 

@@ -17,7 +17,18 @@ function App() {
   }
   
   const joinRoom = () => {
-    window.location.href = '/codenames/' + joinCode
+    fetch('/api/roomType/' + joinCode)
+      .then((response) => response.json())
+      .then((data) => {
+        switch(data.roomType) {
+          case "codenames":
+            window.location.href = '/codenames/' + joinCode;
+            break;
+          case "didyouknow":
+            window.location.href = '/didyouknow/' + joinCode;
+            break;
+        }
+      });
   }
   
   return (
@@ -62,6 +73,14 @@ function App() {
               <p style={{margin: 0}}>(4+ players)</p>
               {/* <img src={CodeNamesLogo} alt="Code names logo" style={{backgroundSize: "contain", width: "80px"}} /> */}
               <a href="https://en.wikipedia.org/wiki/Codenames_(board_game)" target="_blank">Game Instructions</a>
+            </div>
+            <div 
+              onClick={() => console.log("Clicked on Did You Know tile")}
+              style={{cursor: "pointer", flexDirection: "column", margin: "15px", backgroundColor: "white", width: "180px", height: "180px", boxShadow: "inset 0 0 10px #000000", display: "flex", justifyContent: "center", alignItems: "center"}}
+            >
+              <h5 style={{margin: 0}}>Did You Know (Custom)</h5>
+              <p style={{margin: 0}}>(3+ players)</p>
+              <a href="" target="_blank">Game Instructions</a>
             </div>
           </span>
         </span>
