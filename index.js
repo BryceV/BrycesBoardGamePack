@@ -16,7 +16,7 @@ const didYouKnowIO = io.of('/didyouknow');
 // Serve the static files from the React app
 app.use('/codenames/:roomNumber', express.static(path.resolve(__dirname, 'codenames-fe/build')));
 app.use('/didyouknow/:roomNumber', express.static(path.resolve(__dirname, 'did-you-know-fe/build')));
-app.use("/", express.static(path.resolve(__dirname, 'home-page/build')));
+app.use("/", express.static(path.resolve(__dirname, 'home-page-fe/build')));
 
 // Serve the static files from the React app
 app.get("/api/roomType/:joinCode", (req, res) => {
