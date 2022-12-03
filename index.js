@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
 var http = require('http');
+var _ = require('lodash');
 var socketIO = require('socket.io');
 const {getWords, codeNamesRoomData} = require ('./codenames-be/codeNameUtils');
+const {didYouKnowRoomData} = require ('./did-you-know-be/didYouKnowUtils');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -76,6 +78,59 @@ didYouKnowIO.on('connection', socket => {
   socket.on('join', (roomNumber) => {
     console.log(`Client ${socket.id} is joining did-you-know room ${roomNumber}`);
     socket.join(roomNumber);
+
+    //if the first user set up the boardgame data
+    if (didYouKnowIO.adapter.rooms.get(roomNumber).size === 1) {
+      didYouKnowRoomData[roomNumber] = {};
+      didYouKnowRoomData[roomNumber].users = {};
+      didYouKnowRoomData[roomNumber].facts = [];
+
+      //resets with every page
+      didYouKnowRoomData[roomNumber].selectedUsers = [];
+    }
+  });
+
+  socket.on('restart game', (roomNumber, username, factOne, factTwo, factThree) => {
+    didYouKnowRoomData[roomNumber] = {};
+    didYouKnowRoomData[roomNumber].users = {};
+    didYouKnowRoomData[roomNumber].facts = [];
+    didYouKnowRoomData[roomNumber].selectedUsers = [];
+    didYouKnowIO.to(roomNumber).emit("restarting game");
+  });
+
+  socket.on('add user', (roomNumber, username, factOne, factTwo, factThree) => {
+    didYouKnowRoomData[roomNumber].users[username] = {score: 0};
+    didYouKnowRoomData[roomNumber].facts.push({owner: username, fact: factOne});
+    didYouKnowRoomData[roomNumber].facts.push({owner: username, fact: factTwo});
+    didYouKnowRoomData[roomNumber].facts.push({owner: username, fact: factThree});
+    didYouKnowIO.to(roomNumber).emit("updated user list", didYouKnowRoomData[roomNumber].users);
+  });
+
+  socket.on('start game', (roomNumber) => {
+    didYouKnowRoomData[roomNumber].facts = _.shuffle(didYouKnowRoomData[roomNumber].facts);
+    didYouKnowIO.to(roomNumber).emit("starting game", didYouKnowRoomData[roomNumber].facts);
+  });
+
+  socket.on('selection', (roomNumber, user) => {
+    if (!didYouKnowRoomData[roomNumber].selectedUsers.includes(user)) {
+      didYouKnowRoomData[roomNumber].selectedUsers.push(user);
+      didYouKnowIO.to(roomNumber).emit("selection count updated", didYouKnowRoomData[roomNumber].selectedUsers.length);
+    }
+  });
+
+  socket.on('next page', (roomNumber) => {
+    didYouKnowRoomData[roomNumber].selectedUsers = [];
+    didYouKnowIO.to(roomNumber).emit("selection count updated", didYouKnowRoomData[roomNumber].selectedUsers.length);
+    didYouKnowIO.to(roomNumber).emit("sending next page");
+  });
+
+  socket.on('add to score', (roomNumber, user) => {
+    didYouKnowRoomData[roomNumber].users[user].score++;
+    didYouKnowIO.to(roomNumber).emit("updated user list", didYouKnowRoomData[roomNumber].users);
+  });
+
+  socket.on('get score page', (roomNumber) => {
+    didYouKnowIO.to(roomNumber).emit("sending scores");
   });
 
 

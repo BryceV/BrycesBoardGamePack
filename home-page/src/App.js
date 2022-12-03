@@ -74,8 +74,12 @@ function App() {
               {/* <img src={CodeNamesLogo} alt="Code names logo" style={{backgroundSize: "contain", width: "80px"}} /> */}
               <a href="https://en.wikipedia.org/wiki/Codenames_(board_game)" target="_blank">Game Instructions</a>
             </div>
-            <div 
-              onClick={() => console.log("Clicked on Did You Know tile")}
+            <div
+              onClick={() => {
+                let roomCode = Math.floor(Math.random() * 90000) + 10000;
+                window.location.href = '/didyouknow/' + roomCode;
+                console.log("Clicked on Did You Know tile. Room: " + roomCode);
+              }}
               style={{cursor: "pointer", flexDirection: "column", margin: "15px", backgroundColor: "white", width: "180px", height: "180px", boxShadow: "inset 0 0 10px #000000", display: "flex", justifyContent: "center", alignItems: "center"}}
             >
               <h5 style={{margin: 0}}>Did You Know (Custom)</h5>
