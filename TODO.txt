@@ -7,5 +7,13 @@
 3) Win/loss counter just for that game session
 4) Game score boards (Maybe wins for team with "name". Like an arcade score board)
 5) Fun audio sounds for winning/losing, increase clapping sound for a series of correct words
-6) More game types: did you know, scattegories
+6) More game types: scattegories
 7) Look into web transport instead of sockets
+8) Add linter
+9) Hide certain data on the fe to avoid cheating / block everyone from going to next turn (have "host" controls)
+10) Fun emoji/character selector to go next to names
+11) Stop passing roomcodes with every event
+12) Check for username/roomcodes collisions
+13) Favicons for all the react apps
+14) Build an actual help page for game instructions for "Did you know"
+15) Add fun icons for home-page apps (curr commented out)
