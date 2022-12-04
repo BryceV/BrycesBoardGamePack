@@ -4,11 +4,11 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import io from 'socket.io-client'
-import EnterFactsForm from './EnterFactsForm'
-import UserList from './UserList'
-import Game from './Game'
-import Scores from './Scores'
+import io from 'socket.io-client';
+import EnterFactsForm from './EnterFactsForm';
+import UserList from './UserList';
+import Game from './Game';
+import Scores from './Scores';
 import './App.css';
 
 const socket = io("/didyouknow");
