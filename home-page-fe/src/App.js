@@ -72,7 +72,7 @@ function App() {
               <h5 style={{margin: 0}}>Code Names</h5>
               <p style={{margin: 0}}>(4+ players)</p>
               {/* <img src={CodeNamesLogo} alt="Code names logo" style={{backgroundSize: "contain", width: "80px"}} /> */}
-              <a href="https://en.wikipedia.org/wiki/Codenames_(board_game)" target="_blank">Game Instructions</a>
+              <a onClick={(e) => e.stopPropagation()} href="https://en.wikipedia.org/wiki/Codenames_(board_game)" target="_blank">Game Instructions</a>
             </div>
             <div
               onClick={() => {
@@ -84,7 +84,7 @@ function App() {
             >
               <h5 style={{margin: 0}}>Did You Know (Custom)</h5>
               <p style={{margin: 0}}>(3+ players)</p>
-              <a href="" target="_blank">Game Instructions</a>
+              <a onClick={(e) => e.stopPropagation()} href="/didyouknow/help" target="_blank">Game Instructions</a>
             </div>
           </span>
         </span>

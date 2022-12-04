@@ -15,6 +15,7 @@ const didYouKnowIO = io.of('/didyouknow');
 
 // Serve the static files from the React app
 app.use('/codenames/:roomNumber', express.static(path.resolve(__dirname, 'codenames-fe/build')));
+app.use('/didyouknow/help', (req, res) => res.send("Have everyone in your party enter three facts about themselves. The game will mix them up and you can guess whose is whose"));
 app.use('/didyouknow/:roomNumber', express.static(path.resolve(__dirname, 'did-you-know-fe/build')));
 app.use("/", express.static(path.resolve(__dirname, 'home-page-fe/build')));
 
