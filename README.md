@@ -3,7 +3,7 @@
 This is my take on many popular board games. Currently implemented: "Codenames" and a custom game type called "Did You Know" (similar to two truths and a lie)
 
 ### Where can I play
-* Deployed site on [heroku](https://civ-wut-code-names.herokuapp.com/)
+* Deployed site on [render](https://brycesboardgamepack.onrender.com/)
 
 ### Development
 Build the web apps in each FE directory with `npm run build` and serve from root with `npm run dev`
