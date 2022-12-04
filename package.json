@@ -6,13 +6,14 @@
   "scripts": {
     "start": "node index.js",
     "dev": "npx nodemon index.js",
-    "dev2": "concurrently --kill-others-on-fail \"npx nodemon index.js\" \"cd home-page && npm start\" \"cd codenames-fe && npm start\"",
-    "heroku-postbuild": "cd codenames-fe && npm install --only=dev && npm install && npm run build"
+    "dev2": "concurrently --kill-others-on-fail \"npx nodemon index.js\" \"cd home-page-fe && npm start\" \"cd codenames-fe && npm start\"",
+    "heroku-postbuild": "cd codenames-fe && npm install && npm run build && cd ../did-you-know-fe && npm install && npm run build && cd ../home-page-fe && npm install && npm run build"
   },
   "author": "Bryce Vonilten",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "lodash": "^4.17.21",
     "socket.io": "^4.5.2",
     "socket.io-client": "^4.5.2"
   },
