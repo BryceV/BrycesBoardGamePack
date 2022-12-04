@@ -107,6 +107,7 @@ const App = () => {
   
   return (
     <div className="App" style={{display: 'flex', flexDirection: 'column', background: '#434343', paddingLeft: '10%', paddingRight: '10%'}}>
+      <div style={{color: 'white', margin: 0, marginBottom: '25px', float: 'left', position: 'absolute', fontSize: '20px'}}>Room code: {roomNumber}</div>
       <h1 style={{color: 'white', margin: 0, marginBottom: '25px'}} className="title">Code Names</h1>
 
       <div style={{display: 'flex', justifyContent: 'space-between', marginLeft: '20px'}}>
